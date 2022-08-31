@@ -1,0 +1,59 @@
+<?php 
+require 'header.php';
+$id = $_SESSION['user_id'];
+	$level = $_SESSION['level'];
+	if ($level !== 'admin') {
+		header('location: index.php');
+	}
+require 'sidebar.php';
+require 'navbar.php';
+
+ ?>
+ 
+ 	<div class="col-lg-8">
+		<div class="col-sm-12">
+			<div class="row mt-4">
+				<h4>Tambah Jadwal</h4>
+			</div>
+		</div>
+		<form method="POST" action="q_tambahjadwal.php">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label>Asal</label>
+					<input type="text" class="form-control"  name="asal" placeholder="Asal">
+				</div>
+				<div class="form-group">
+					<label >Tujuan</label>
+					<input type="text" class="form-control"   name="tujuan"  placeholder="Tujuan">
+				</div>
+				<div class="form-group">
+					<label >Kelas</label>
+					<input type="text" class="form-control" name="kelas" placeholder="Kelas">
+				</div>
+				<div class="form-group">
+					<label >Harga</label>
+					<input type="text" class="form-control" name="harga" placeholder="Harga">
+				</div>
+				<div class="form-group">
+					<label >Limit Penumpang</label>
+					<input type="number" class="form-control" name="limit" placeholder="Limit Penumpang">
+				</div>
+				<div class="col-sm-10">
+					<div class="row">
+						<div class="form-group">
+							<label>Tanggal berangkat</label>
+							<input type="date" class="form-control"  name="tanggal">
+						</div>
+						<div class="form-group ml-4">
+							<label >Waktu Keberangkatan</label>
+							<input type="time" class="form-control" name="waktu">
+						</div>
+					</div>
+				</div>
+				<input type="submit" class="btn btn-primary" name="btn-tambah" value="Tambah Jadwal">
+				<a class="ml-3" href="jadwal.php">Batal</a>
+			</div>
+		</form>
+	</div>
+ 
+<?php require 'footer.php';?>

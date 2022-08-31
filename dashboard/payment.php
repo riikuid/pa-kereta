@@ -1,0 +1,86 @@
+<?php 
+	require 'header.php';
+
+	$_id = $_GET['id'];
+	$_payment_code = $_GET['paymentUrl'];
+	$level = $_SESSION['level'];
+	if ($level !== 'user') {
+		header('location: index.php');
+	}
+	
+	$sql = "SELECT payment.*, t_order.*, jadwal.*
+			FROM  t_order
+	    	JOIN payment ON payment.id_order  = t_order.id 
+			JOIN jadwal ON jadwal.id  = t_order.id_jadwal
+		    WHERE payment.id='$_id'";
+	$result = mysqli_query($conn,$sql);
+	include 'sidebar.php';
+    include 'navbar.php'; ?>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Payment</h1>
+          </div>          
+          <!-- Content Row -->
+          <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-12 mb-4">
+            	<div class="col-sm-8">
+	            	<div class="jumbotron bg-white">
+	            		<div class="jumbotron-fluid mt-5">
+							<div class="title">
+								<div class="col-sm-12">		
+									<table class="table table-bordered">
+										<?php 
+										while($row = mysqli_fetch_array($result)){
+											$harga = $row['harga'];
+											$penumpang = $row['jml_penumpang'];
+											$tanggal = $row['tgl_order'];
+											$total_harga = $harga * $penumpang;
+										 ?>
+
+									  <tbody class="text-left">
+									  	<tr>
+									      <th scope="row">Kode Pembayaran</th>
+									      <td><?= $_payment_code;?></td>
+									    </tr>
+									    <tr>
+									      <th scope="row">Harga</th>
+									      <td><?= number_format($harga);?></td>
+									    </tr>
+										<tr>
+									      <th scope="row">Tanggal Pemesanan</th>
+									      <td><?=$tanggal;?></td>
+									    </tr>
+									    <tr>
+									      <th scope="row">Jumlah Penumpang</th>
+									      <td><?=$penumpang;?></td>
+									    </tr>
+									    <tr>
+									        <td>
+										      	<h3>Total Pembayaran</h3>
+								  	    	</td>
+									      <td><h3>Rp. <?= number_format($total_harga);?></h3></td>
+									    </tr>
+									  </tbody>
+									  <?php }?>
+									</table>										
+								</div>
+								<div class="col-sm-12">
+									<a href="order.php" class="btn btn-primary">Kembali</a>
+								</div>
+							</div>
+						</div>
+	            	</div>		
+            	</div>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->      <!-- End of Main Content -->
+
+     
+
+<?php include 'footer.php'; ?>
+
+
